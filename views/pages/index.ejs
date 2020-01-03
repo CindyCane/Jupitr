@@ -388,6 +388,27 @@
                     $("#hourly").fadeIn(150)
                 })
             });
+            
+            var x, left, down;
+
+            $("#hourlyScroll").mousedown(function(e) {
+                e.preventDefault();
+                down = true;
+                x = e.pageX;
+                left = $(this).scrollLeft();
+            });
+
+            $("body").mousemove(function(e) {
+                if (down) {
+                    var newX = e.pageX;
+                    $("#hourlyScroll").scrollLeft(left - newX + x);
+                }
+            });
+
+            $("body").mouseup(function(e) {
+                down = false;
+            });
+            
         });
 
     </script>
