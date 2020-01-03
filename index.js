@@ -1,3 +1,4 @@
+var PORT = process.env.PORT || 3000;
 let express = require('express');
 let app = express();
 let bodyParser = require('body-parser');
@@ -397,6 +398,6 @@ app.post('/', function (req, responseMaster) {
 
 });
 
-app.listen(3000, function () {
+app.listen(PORT, function () {
     console.log('connected!');
 });
