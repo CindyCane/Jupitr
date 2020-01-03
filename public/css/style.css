@@ -1,0 +1,884 @@
+.clear {
+    background-image: url(../img/icons/clear.svg);
+    background-size: 100% 100%;
+}
+
+.rain {
+    background-image: url(../img/icons/rain.svg);
+    background-size: 100% 100%;
+}
+
+.snow {
+    background-image: url(../img/icons/snow.svg);
+    background-size: 100% 100%;
+}
+
+.sleet {
+    background-image: url(../img/icons/sleet.svg);
+    background-size: 100% 100%;
+}
+
+.wind {
+    background-image: url(../img/icons/wind.svg);
+    background-size: 100% 100%;
+}
+
+.fog {
+    background-image: url(../img/icons/fog.svg);
+    background-size: 100% 100%;
+}
+
+.cloudy {
+    background-image: url(../img/icons/cloudy.svg);
+    background-size: 100% 100%;
+}
+
+.partly {
+    background-image: url(../img/icons/partly.svg);
+    background-size: 100% 100%;
+}
+
+.hail {
+    background-image: url(../img/icons/hail.svg);
+    background-size: 100% 100%;
+}
+
+.thunderstorm {
+    background-image: url(../img/icons/thunder.svg);
+    background-size: 100% 100%;
+}
+
+.tornado {
+    background-image: url(../img/icons/tornado.svg);
+    background-size: 100% 100%;
+}
+
+
+.clearBg, .partlyBg {
+    background-image: linear-gradient(#2980B9, #6DD5FA);
+}
+
+.rainBg, .thunderstormBg, .tornadoBg {
+    background-image: linear-gradient(#373B44, #4286f4);
+}
+
+.windBg, .fogBg, .cloudyBg {
+    background-image: linear-gradient(#757F9A, #D7DDE8);
+}
+
+.snowBg, .sleetBg, .hailBg {
+    background-image: linear-gradient(#65C7F7, #0052D4);
+}
+
+.Bg {
+    background-image: linear-gradient(#3494E6, #EC6EAD);
+}
+
+
+
+
+.hourlySelected {
+    font-weight: 800 !important;
+}
+
+.dailySelected {
+    border: 1px solid #ffffff !important;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+}
+
+html {
+    -webkit-transition: all .2s linear;
+    -moz-transition: all .2s linear;
+    -o-transition: all .2s linear;
+    transition: all .2s linear;
+}
+
+body {
+    -webkit-transition: all .2s linear;
+    -moz-transition: all .2s linear;
+    -o-transition: all .2s linear;
+    transition: all .2s linear;
+    color: #ffffff;
+}
+
+footer {
+    text-align: center;
+    margin-top: 2vw;
+    padding-bottom: 2vw;
+}
+
+#error {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    position: fixed;
+    z-index: 999;
+    background-color: #ffffff;
+}
+
+#errorContent {
+    width: 40vw;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#errorImg {
+    width: 40%;
+    margin: auto;
+}
+
+#errorMessage {
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+    font-size: 2.25vw;
+    letter-spacing: 0.075vw;
+    margin-top: 2.75vw;
+    margin-bottom: 2vw;
+}
+
+#errorButton {
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1vw;
+    background-color: #38aaff;
+    color: #ffffff;
+    cursor: pointer;
+    border: none;
+    font-size: 1.25vw;
+    padding-top: 1.5vw;
+    padding-bottom: 1.5vw;
+    padding-left: 3.5vw;
+    padding-right: 3.5vw;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    outline: none;
+    -webkit-transition: all .2s linear;
+    -moz-transition: all .2s linear;
+    -o-transition: all .2s linear;
+    transition: all .2s linear;
+}
+
+#errorButton:hover {
+    background-color: #0094ff;
+}
+
+#location {
+    width: 91vw;
+    margin: auto;
+    margin-top: 3vw;
+}
+
+#locationAddress,
+#locationTime {
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+    font-size: 1.5vw;
+}
+
+#locationAddress {
+    font-size: 2.75vw;
+    letter-spacing: 0.075vw;
+}
+
+#locationTime {
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+    letter-spacing: 0.035vw;
+}
+
+#locationTemp {
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+    font-size: 1.5vw;
+    text-transform: capitalize;
+    letter-spacing: 0.035vw;
+}
+
+#current {
+    width: 91vw;
+    margin: auto;
+    display: block;
+    position: relative;
+}
+
+#currentTempAndIcon {
+    display: flex;
+    margin-top: 3.5vw;
+}
+
+#currentTemp {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: flex-start;
+    font-size: 2vw;
+    font-weight: 600;
+}
+
+#currentTempValue {
+    margin: 0;
+    padding: 0;
+    font-weight: 300;
+    font-size: 10vw;
+    margin-top: -3vw;
+    margin-right: 0.5vw;
+}
+
+#currentTempC,
+#currentTempF {
+    margin: 0;
+    padding: 0;
+}
+
+#currentTempC {
+    margin-right: 1vw;
+}
+
+#currentTempF {
+    margin-left: 1vw;
+    cursor: pointer;
+}
+
+#currentTempIcon {
+    width: 10vw;
+    height: 10vw;
+    margin-top: -1vw;
+    margin-right: 3vw;
+}
+
+#currentStatsWrapper {
+    position: absolute;
+    top: 0;
+    right: 20vw;
+}
+
+#hourly {
+    margin-top: 8vw;
+    height: 8.4vw;
+    overflow: hidden;
+    padding-top: 3vw;
+    padding-bottom: 3vw;
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+
+#hourlyScroll {
+    display: flex;
+    height: 50vw;
+    white-space: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+#daily {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto;
+    width: 96.5vw;
+    margin: auto;
+    margin-top: 6.5vw;
+    margin-bottom: 6.5vw;
+}
+
+#footerH3 {
+    margin: 0;
+    font-size: 1.25vw;
+    font-weight: 500;
+    letter-spacing: 0.055vw;
+
+}
+
+#footerH3 a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 800;
+}
+
+#searchError {
+    text-align: center;
+    margin-top: 7vw;
+    margin-bottom: 8vw;
+}
+
+#searchErrorImg {
+    width: 20vw;
+    height: 20vw;
+    margin: 0;
+}
+
+#searchErrorMessage1 {
+    margin: 0;
+    font-size: 2vw;
+    font-weight: 600;
+    letter-spacing: 0.075vw;
+    margin-top: 3vw;
+    margin-bottom: 2vw;
+}
+
+#searchErrorMessage2 {
+    margin: 0;
+    font-size: 1.25vw;
+    font-weight: 500;
+    letter-spacing: 0.055vw;
+}
+
+.searchForm {
+    text-align: center;
+    padding-top: 1.5vw;
+}
+
+.searchFormInput {
+    margin: 0;
+    padding: 0;
+    width: 85vw;
+    font-size: 1.25vw;
+    font-weight: 400;
+    letter-spacing: 0.05vw;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #dfe1e5;
+    padding-top: 1vw;
+    padding-bottom: 1vw;
+    padding-left: 2vw;
+    padding-right: 4vw;
+    outline: none;
+}
+
+.searchFormInput::placeholder {
+    color: #b2b2b2;
+}
+
+.searchFormSubmit {
+    position: absolute;
+    z-index: 10;
+    margin: 0;
+    padding: 0;
+    margin-top: 1.1vw;
+    margin-left: -3vw;
+    width: 1.5vw;
+    height: 1.5vw;
+    border: none;
+    background-image: url(../img/search1.svg);
+    background-size: 100% 100%;
+    -webkit-transition: all .2s linear;
+    -moz-transition: all .2s linear;
+    -o-transition: all .2s linear;
+    transition: all .2s linear;
+}
+
+.searchFormSubmit:hover {
+    background-image: url(../img/search2.svg);
+}
+
+.currentStatsTitle {
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+    font-size: 1.5vw;
+    letter-spacing: 0.055vw;
+}
+
+.currentStatsTitle:not(:first-child):not(:last-child) {
+    margin-top: 1.25vw;
+    margin-bottom: 1.25vw;
+}
+
+.hourlySingle {
+    text-align: center;
+    cursor: pointer;
+    width: 50vw;
+}
+
+.hourlySingle:first-child {
+    margin-right: 1.5vw;
+    padding-left: 4.5vw;
+}
+
+.hourlySingle:last-child {
+    margin-left: 1.5vw;
+    padding-right: 4.5vw;
+}
+
+.hourlySingle:not(:first-child):not(:last-child) {
+    margin-left: 1.5vw;
+    margin-right: 1.5vw;
+}
+
+.hourlyTime {
+    margin: 0;
+    padding: 0;
+    font-size: 1.25vw;
+    font-weight: 300;
+    letter-spacing: 0.055vw;
+}
+
+.hourlyIcon {
+    width: 2.5vw;
+    height: 2.5vw;
+    margin: auto;
+    margin-top: 1.5vw;
+    margin-bottom: 1.5vw;
+}
+
+.hourlyTemp {
+    margin: 0;
+    padding: 0;
+    font-size: 1.25vw;
+    font-weight: 300;
+    letter-spacing: 0.055vw;
+}
+
+.dailySingle {
+    text-align: center;
+    width: 8.5vw;
+    margin: auto;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.dailyTime {
+    margin: 0;
+    margin-top: 1.75vw;
+    font-size: 1.5vw;
+    font-weight: 500;
+    letter-spacing: 0.055vw;
+}
+
+.dailyIcon {
+    width: 2.5vw;
+    height: 2.5vw;
+    margin: auto;
+    margin-top: 1.5vw;
+    margin-bottom: 1.5vw;
+}
+
+.dailyTemp {
+    margin: 0;
+    margin-bottom: 1.75vw;
+    font-size: 1.5vw;
+    font-weight: 500;
+    letter-spacing: 0.055vw;
+}
+
+@media only screen and (max-width: 850px) {
+    #errorContent {
+        width: 60vw;
+    }
+
+    #errorMessage {
+        font-size: 3vw;
+        letter-spacing: 0.095vw;
+        margin-top: 3.5vw;
+        margin-bottom: 3.5vw;
+    }
+
+    #errorButton {
+        letter-spacing: 0.2vw;
+        font-size: 2vw;
+        padding-top: 2.25vw;
+        padding-bottom: 2.25vw;
+        padding-left: 4.5vw;
+        padding-right: 4.5vw;
+    }
+
+    #footerH3 {
+        margin: 0;
+        font-size: 2vw;
+        letter-spacing: 0.075vw;
+    }
+
+    #location {
+        margin-top: 4vw;
+    }
+
+    #locationAddress,
+    #locationTime {
+        font-size: 2.5vw;
+    }
+
+    #locationAddress {
+        font-size: 4.25vw;
+        letter-spacing: 0.1vw;
+    }
+
+    #locationTime {
+        margin-top: 1vw;
+        margin-bottom: 1vw;
+        letter-spacing: 0.075vw;
+    }
+
+    #locationTemp {
+        font-size: 2.5vw;
+        letter-spacing: 0.075vw;
+    }
+
+    #currentTempAndIcon {
+        margin-top: 5vw;
+    }
+
+    #currentTemp {
+        font-size: 3vw;
+    }
+
+    #currentTempValue {
+        font-size: 13vw;
+        margin-top: -4vw;
+        margin-right: 1vw;
+    }
+
+    #currentTempC {
+        margin-right: 1.25vw;
+    }
+
+    #currentTempF {
+        margin-left: 1.25vw;
+    }
+
+    #currentTempIcon {
+        width: 13vw;
+        height: 13vw;
+        margin-top: -1.5vw;
+        margin-right: 4vw;
+    }
+
+    #currentStatsWrapper {
+        right: 10vw;
+    }
+
+    #hourly {
+        margin-top: 11vw;
+        height: 14vw;
+        padding-top: 3vw;
+        padding-bottom: 3vw;
+    }
+
+    #daily {
+        width: 94.75vw;
+        margin: auto;
+        margin-top: 8vw;
+        margin-bottom: 8vw;
+    }
+
+    .searchForm {
+        padding-top: 1rem;
+    }
+
+    .searchFormInput {
+        width: 81.5vw;
+        font-size: 1.25rem;
+        font-weight: 400;
+        letter-spacing: 0.15vw;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        padding-left: 3vw;
+        padding-right: 6vw;
+    }
+
+    .searchFormSubmit {
+        position: absolute;
+        z-index: 10;
+        margin-top: 0.9rem;
+        margin-left: -5vw;
+        width: 1.35rem;
+        height: 1.35rem;
+    }
+
+    .currentStatsTitle {
+        font-size: 2.25vw;
+        letter-spacing: 0.085vw;
+    }
+
+    .currentStatsTitle:not(:first-child):not(:last-child) {
+        margin-top: 1.5vw;
+        margin-bottom: 1.5vw;
+    }
+
+    .hourlySingle:first-child {
+        margin-right: 2.05vw;
+        padding-left: 4.5vw;
+    }
+
+    .hourlySingle:last-child {
+        margin-left: 2.05vw;
+        padding-right: 4.5vw;
+    }
+
+    .hourlySingle:not(:first-child):not(:last-child) {
+        margin-left: 2.05vw;
+        margin-right: 2.05vw;
+    }
+
+    .hourlyTime {
+        font-size: 2.25vw;
+        letter-spacing: 0.085vw;
+    }
+
+    .hourlyIcon {
+        width: 4vw;
+        height: 4vw;
+        margin-top: 2.25vw;
+        margin-bottom: 2.25vw;
+    }
+
+    .hourlyTemp {
+        font-size: 2.25vw;
+        letter-spacing: 0.085vw;
+    }
+
+    .dailySingle {
+        text-align: center;
+        width: 10vw;
+        margin: auto;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+    }
+
+    .dailyTime {
+        margin: 0;
+        margin-top: 3.5vw;
+        font-size: 2.5vw;
+        letter-spacing: 0.085vw;
+
+    }
+
+    .dailyIcon {
+        width: 3.5vw;
+        height: 3.5vw;
+        margin: auto;
+        margin-top: 2vw;
+        margin-bottom: 2vw;
+    }
+
+    .dailyTemp {
+        margin: 0;
+        margin-bottom: 3.5vw;
+        font-size: 2.5vw;
+        letter-spacing: 0.085vw;
+
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    #errorContent {
+        width: 80vw;
+    }
+
+    #errorMessage {
+        font-size: 4vw;
+        letter-spacing: 0.1vw;
+        margin-top: 4vw;
+        margin-bottom: 5.5vw;
+    }
+
+    #errorButton {
+        letter-spacing: 0.2vw;
+        font-size: 3vw;
+        padding-top: 3vw;
+        padding-bottom: 3vw;
+        padding-left: 5.5vw;
+        padding-right: 5.5vw;
+    }
+
+    #location {
+        margin-top: 4vw;
+        text-align: center;
+    }
+
+    #locationAddress,
+    #locationTime {
+        font-size: 3vw;
+    }
+
+    #locationAddress {
+        font-size: 5.5vw;
+        letter-spacing: 0.175vw;
+    }
+
+    #locationTime {
+        margin-top: 1vw;
+        margin-bottom: 1vw;
+        letter-spacing: 0.1vw;
+    }
+
+    #locationTemp {
+        font-size: 3vw;
+        letter-spacing: 0.1vw;
+    }
+
+    #currentTempAndIcon {
+        margin-top: 8vw;
+        justify-content: center;
+    }
+
+    #currentTemp {
+        font-size: 4vw;
+    }
+
+    #currentTempValue {
+        font-size: 20vw;
+        margin-top: -4.5vw;
+        margin-right: 1vw;
+    }
+
+    #currentTempC {
+        margin-right: 1.25vw;
+    }
+
+    #currentTempF {
+        margin-left: 1.25vw;
+    }
+
+    #currentTempIcon {
+        width: 20vw;
+        height: 20vw;
+        margin-top: -3.5vw;
+        margin-right: 4vw;
+    }
+
+    #currentStatsWrapper {
+        position: relative;
+        top: 0;
+        right: 0;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        margin-top: 8vw;
+        text-align: center;
+    }
+
+    #hourly {
+        margin-top: 8vw;
+        height: 22vw;
+        padding-top: 5.15vw;
+        padding-bottom: 3vw;
+    }
+
+    #daily {
+        display: grid;
+        grid-template-columns: auto;
+        width: 94vw;
+        margin: auto;
+        margin-top: 3vw;
+        margin-bottom: 7vw;
+    }
+
+    #footerH3 {
+        margin: 0;
+        font-size: 2.5vw;
+        letter-spacing: 0.15vw;
+    }
+
+    .searchFormInput {
+        width: 77vw;
+        padding-left: 4vw;
+        padding-right: 9vw;
+    }
+
+    .searchFormSubmit {
+        margin-left: -7vw;
+    }
+
+    .currentStatsTitle {
+        font-size: 3vw;
+        letter-spacing: 0.25vw;
+        font-weight: 500;
+    }
+
+    .currentStatsTitle:not(:first-child):not(:last-child) {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .currentStatsValue {
+        display: block;
+        margin-top: 1.5vw;
+    }
+
+    .hourlySingle:first-child {
+        margin-right: 3.65vw;
+        padding-left: 4.5vw;
+    }
+
+    .hourlySingle:last-child {
+        margin-left: 3.65vw;
+        padding-right: 4.5vw;
+    }
+
+    .hourlySingle:not(:first-child):not(:last-child) {
+        margin-left: 3.65vw;
+        margin-right: 3.65vw;
+    }
+
+    .hourlyTime {
+        font-size: 3.25vw;
+        letter-spacing: 0.15vw;
+    }
+
+    .hourlyIcon {
+        width: 6.25vw;
+        height: 6.25vw;
+        margin-top: 3vw;
+        margin-bottom: 3vw;
+    }
+
+    .hourlyTemp {
+        font-size: 3.25vw;
+        letter-spacing: 0.15vw;
+    }
+
+    .dailySingle {
+        width: 96%;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .dailyTime {
+        margin-top: 0;
+        width: 5vw;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 3vw;
+        font-size: 3vw;
+        font-weight: 500;
+        letter-spacing: 0.055vw;
+    }
+
+    .dailyIcon {
+        width: 5vw;
+        height: 5vw;
+        margin-top: 1.5vw;
+        margin-bottom: 1.5vw;
+    }
+
+    .dailyTemp {
+        width: 5vw;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-right: 4vw;
+        font-size: 3vw;
+        font-weight: 500;
+        letter-spacing: 0.055vw;
+    }
+
+}

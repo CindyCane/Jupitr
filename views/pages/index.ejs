@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en" class="<%= currentIcon %>Bg">
+
+<head>
+    <% include ../partials/head %>
+</head>
+
+<body style="background-color: rgba(0, 0, 0, <%= dayTime %>)">
+    <header>
+        <form action="/" method="post" class="searchForm">
+            <input name="city" type="text" class="searchFormInput" placeholder="Search for location" required pattern="^[a-zA-Z0-9!@#$%^&*()_+-={}\|;':,./<>?]+$">
+            <input type="submit" class="searchFormSubmit" value="">
+        </form>
+    </header>
+    <% if(error !== null){ %>
+    <div id="error">
+        <div id="errorContent">
+            <img id="errorImg" alt="Error Image" src="/img/error.svg">
+            <h3 id="errorMessage">Oops ... something went wrong</h3>
+            <button id="errorButton">Refresh</button>
+        </div>
+    </div>
+    <% } %>
+    <% if(searchError == null){ %>
+    <section id="wrapper">
+        <div id="location">
+            <h1 id="locationAddress"><% if(city !== undefined){ %><%= city %>, <% } %><%= state %></h1>
+            <h3 id="locationTime"><span id="locationTimeDay"><%= currentDay %></span> <span id="locationTimeHour"><%= currentTime %></span></h3>
+            <h3 id="locationTemp"><%= currentIcon %></h3>
+        </div>
+        <div id="current">
+            <div id="currentTempWrapper">
+                <div id="currentTempAndIcon">
+                    <div id="currentTempIcon" class="<%= currentIcon %>"></div>
+                    <h2 id="currentTemp"><span id="currentTempValue"><%= currentTemp %></span><span id="currentTempC">°C</span>|<span id="currentTempF">°F</span></h2>
+                </div>
+            </div>
+            <div id="currentStatsWrapper">
+                <h3 class="currentStatsTitle">Precipitation: <span class="currentStatsValue currentStatsValuePrecipitation"><%= currentPop %>%</span></h3>
+                <h3 class="currentStatsTitle">Humidity: <span class="currentStatsValue currentStatsValueHumidity"><%= currentHumidity %>%</span></h3>
+                <h3 class="currentStatsTitle">Wind: <span class="currentStatsValue currentStatsValueWind"><%= currentWind %>km/h
+                        <% if(currentWindBearing !== null && currentWindBearing > 338 || currentWindBearing < 22){ %>
+                        N
+                        <% } %>
+                        <% if(currentWindBearing !== null && currentWindBearing > 22 && currentWindBearing < 67){ %>
+                        NE
+                        <% } %>
+                        <% if(currentWindBearing !== null && currentWindBearing > 67 && currentWindBearing < 112){ %>
+                        E
+                        <% } %>
+                        <% if(currentWindBearing !== null && currentWindBearing > 112 && currentWindBearing < 157){ %>
+                        SE
+                        <% } %>
+                        <% if(currentWindBearing !== null && currentWindBearing > 157 && currentWindBearing < 202){ %>
+                        S
+                        <% } %>
+                        <% if(currentWindBearing !== null && currentWindBearing > 202 && currentWindBearing < 247){ %>
+                        SW
+                        <% } %>
+                        <% if(currentWindBearing !== null && currentWindBearing > 247 && currentWindBearing < 292){ %>
+                        W
+                        <% } %>
+                        <% if(currentWindBearing !== null && currentWindBearing > 292 && currentWindBearing <= 338){ %>
+                        NW
+                        <% } %></span></h3>
+                <h3 class="currentStatsTitle">Pressure: <span class="currentStatsValue currentStatsValuePressure"><%= currentPressure %> kPa</span></h3>
+            </div>
+        </div>
+        <div id="hourly">
+            <div id="hourlyScroll">
+                <% for (var i = 0; i <= 23; i++){ %>
+                <div class="hourlySingle">
+                    <h3 class="hourlyTime"><%= hourlyTime[i] %></h3>
+                    <h3 class="hourlyIcon <%= hourlyIcon[i] %>"></h3>
+                    <h3 class="hourlyTemp"><span class="hourlyTempValue"><%= hourlyTemp[i] %></span><span class="hourlyTempUnit">°C</span></h3>
+                </div>
+                <% } %>
+            </div>
+        </div>
+        <div id="daily">
+            <% for (var i = 0; i <= 6; i++){ %>
+            <div class="dailySingle">
+                <h3 class="dailyTime"><%= dailyDate[i] %></h3>
+                <h3 class="dailyIcon <%= dailyIcon[i] %>"></h3>
+                <h3 class="dailyTemp"><span class="dailyTempValue"><%= dailyTemp[i] %></span><span class="dailyTempUnit">°C</span></h3>
+            </div>
+            <% } %>
+        </div>
+    </section>
+    <% } %>
+    <% if(searchError !== null){ %>
+    <div id="searchError">
+        <img id="searchErrorImg" alt="Error Image" src="/img/searchError.svg">
+        <h3 id="searchErrorMessage1">Jupitr can't find <%= searchError %></h3>
+        <h3 id="searchErrorMessage2">Make sure your search is spelled correctly</h3>
+    </div>
+    <% } %>
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+    <script>
+        $(document).ready(function() {
+            var fullData = <%-JSON.stringify(fullData)%>
+            var isCelsiusCurrent = <%-JSON.stringify(currentTemp)%>
+            var isCelsius = true
+            var hourlyTemp = []
+            var dailyTemp = []
+            var dayBuffer = 0
+
+            $(document).on("click tap touchstart", "#errorButton", function() {
+                window.location.reload()
+            })
+
+            $(document).on("click tap touchstart", "#currentTempF", function() {
+
+                if (isCelsius === true) {
+                    $("#currentTempValue").fadeOut(150).promise().done(function() {
+                        $("#currentTempValue").text(Math.round(isCelsiusCurrent * 1.8 + 32)).fadeIn(150);
+                        $("#currentTempC").text("°F");
+                        $("#currentTempF").text("°C");
+                    })
+                    $(".hourlyTemp").fadeOut(150).promise().done(function() {
+                        for (i = 0; i < 24; i++) {
+                            $(".hourlySingle:nth-child(" + (i + 1) + ") .hourlyTemp .hourlyTempValue").text(Math.round(fullData.hourly.data[i + dayBuffer].temperature * 1.8 + 32))
+                        }
+                        $(".hourlyTempUnit").text("°F")
+                        $(".hourlyTemp").fadeIn(150)
+                    })
+                    $(".dailyTemp").fadeOut(150).promise().done(function() {
+                        for (i = 0; i < 8; i++) {
+                            $(".dailySingle:nth-child(" + (i + 1) + ") .dailyTemp .dailyTempValue").text(Math.round(((fullData.daily.data[i].temperatureMin + fullData.daily.data[i].temperatureMax) / 2) * 1.8 + 32))
+                        }
+                        $(".dailyTempUnit").text("°F")
+                        $(".dailyTemp").fadeIn(150)
+                    })
+                    isCelsius = false
+                } else {
+                    $("#currentTempValue").fadeOut(150).promise().done(function() {
+                        $("#currentTempValue").text(Math.round(isCelsiusCurrent)).fadeIn(150);
+                        $("#currentTempC").text("°C");
+                        $("#currentTempF").text("°F");
+                    })
+                    $(".hourlyTemp").fadeOut(150).promise().done(function() {
+                        for (i = 0; i < 24; i++) {
+                            $(".hourlySingle:nth-child(" + (i + 1) + ") .hourlyTemp .hourlyTempValue").text(Math.round(fullData.hourly.data[i + dayBuffer].temperature))
+                        }
+                        $(".hourlyTempUnit").text("°C")
+                        $(".hourlyTemp").fadeIn(150)
+                    })
+                    $(".dailyTemp").fadeOut(150).promise().done(function() {
+                        for (i = 0; i < 8; i++) {
+                            $(".dailySingle:nth-child(" + (i + 1) + ") .dailyTemp .dailyTempValue").text(Math.round((fullData.daily.data[i].temperatureMin + fullData.daily.data[i].temperatureMax) / 2))
+                        }
+                        $(".dailyTempUnit").text("°C")
+                        $(".dailyTemp").fadeIn(150)
+                    })
+                    isCelsius = true
+
+                }
+            })
+
+            function addHourlyFirst() {
+                $(".hourlySingle:first-child .hourlyTime").addClass("hourlySelected");
+                $(".hourlySingle:first-child .hourlyTemp").addClass("hourlySelected");
+            }
+
+            function addDailyFirst() {
+                $(".dailySingle:first-child").addClass("dailySelected");
+            }
+
+            addHourlyFirst()
+            addDailyFirst()
+
+            $(document).on("click tap touchstart", ".hourlySingle", function() {
+                $(".hourlySelected").removeClass("hourlySelected");
+
+                var index = $(this).parent().children().index(this);
+                $(".hourlySingle:nth-child(" + (index + 1) + ") .hourlyTime").addClass("hourlySelected");
+                $(".hourlySingle:nth-child(" + (index + 1) + ") .hourlyTemp").addClass("hourlySelected");
+
+                var icon = fullData.hourly.data[index + dayBuffer].icon
+
+                if (icon === "clear-day" || icon === "clear-night") {
+                    icon = "clear"
+                } else if (icon === "partly-cloudy-day" || icon === "partly-cloudy-night") {
+                    icon = "partly"
+                } else if (icon === "rain" || icon === "snow" || icon === "sleet" || icon === "wind" || icon === "fog" || icon === "cloudy" || icon === "hail" || icon === "thunderstorm" || icon === "tornado") {} else {
+                    icon = "clear"
+                }
+
+                $("#current").fadeOut(150).promise().done(function() {
+                    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'thursday', 'Friday', 'Saturday'];
+                    var time = (new Date((fullData.hourly.data[index + dayBuffer].time) * 1000)).getHours()
+                    if (time == 0) {
+                        time = (time + 12) + ":00 AM";
+                    } else if (time == 12) {
+                        time = time + ":00 PM"
+                    } else if (time > 12) {
+                        time = (time - 12) + ":00 PM"
+                    } else {
+                        time = time + ":00 AM"
+                    }
+                    $("#locationTimeHour").text(time)
+                    $("#locationTimeDay").text(days[(new Date((fullData.hourly.data[index + dayBuffer].time) * 1000)).getDay()])
+                    $("#currentTempIcon").removeClass().addClass(icon)
+                    $("#locationTemp").text(icon)
+                    $("html").removeClass().addClass(icon + "Bg")
+
+                    isCelsiusCurrent = isCelsiusCurrent - isCelsiusCurrent + fullData.hourly.data[index + dayBuffer].temperature
+
+                    if (isCelsius === true) {
+                        $("#currentTempValue").text(Math.round(fullData.hourly.data[index + dayBuffer].temperature))
+                    } else {
+                        $("#currentTempValue").text(Math.round(fullData.hourly.data[index + dayBuffer].temperature * 1.8 + 32))
+                    }
+
+                    var dayTime = 0
+
+                    if (fullData.hourly.data[index + dayBuffer].time >= fullData.daily.data[(dayBuffer / 24) + 1].time) {
+
+                        if (fullData.hourly.data[index + dayBuffer].time <= fullData.daily.data[(dayBuffer / 24) + 1].sunriseTime || fullData.hourly.data[index + dayBuffer].time >= fullData.daily.data[(dayBuffer / 24) + 1].sunsetTime) {
+                            dayTime = dayTime - dayTime + 0.75
+                        } else {
+                            dayTime = (dayTime - dayTime) + (fullData.daily.data[(dayBuffer / 24) + 1].sunsetTime - fullData.hourly.data[index + dayBuffer].time) / (fullData.daily.data[(dayBuffer / 24) + 1].sunsetTime - fullData.daily.data[(dayBuffer / 24) + 1].sunriseTime)
+
+                            if (dayTime >= 0.5) {
+                                dayTime = (dayTime - 0.5) * 1.5
+                            } else {
+                                dayTime = ((1 - dayTime) - 0.5) * 1.5
+                            }
+                        }
+
+                        $("body").css("background-color", "rgba(0, 0, 0, " + dayTime.toFixed(2) + "")
+                    } else {
+
+                        if (fullData.hourly.data[index + dayBuffer].time <= fullData.daily.data[dayBuffer / 24].sunriseTime || fullData.hourly.data[index + dayBuffer].time >= fullData.daily.data[dayBuffer / 24].sunsetTime) {
+                            dayTime = dayTime - dayTime + 0.75
+                        } else {
+                            dayTime = (dayTime - dayTime) + (fullData.daily.data[dayBuffer / 24].sunsetTime - fullData.hourly.data[index + dayBuffer].time) / (fullData.daily.data[dayBuffer / 24].sunsetTime - fullData.daily.data[dayBuffer / 24].sunriseTime)
+
+                            if (dayTime >= 0.5) {
+                                dayTime = (dayTime - 0.5) * 1.5
+                            } else {
+                                dayTime = ((1 - dayTime) - 0.5) * 1.5
+                            }
+                        }
+
+                        $("body").css("background-color", "rgba(0, 0, 0, " + dayTime.toFixed(2) + "")
+
+                    }
+
+                    $(".currentStatsValuePrecipitation").text(Math.round(fullData.hourly.data[index + dayBuffer].precipProbability * 100) + "%")
+                    $(".currentStatsValueHumidity").text(Math.round(fullData.hourly.data[index + dayBuffer].humidity * 100) + "%")
+                    var bearing = fullData.hourly.data[index + dayBuffer].windBearing
+                    var direction
+                    if (bearing !== null && bearing > 338 || bearing < 22) {
+                        direction = "N"
+                    } else if (bearing !== null && bearing > 22 && bearing < 67) {
+                        direction = "NE"
+                    } else if (bearing !== null && bearing > 67 && bearing < 112) {
+                        direction = "E"
+                    } else if (bearing !== null && bearing > 112 && bearing < 157) {
+                        direction = "SE"
+                    } else if (bearing !== null && bearing > 157 && bearing < 202) {
+                        direction = "S"
+                    } else if (bearing !== null && bearing > 202 && bearing < 247) {
+                        direction = "SW"
+                    } else if (bearing !== null && bearing > 247 && bearing < 292) {
+                        direction = "W"
+                    } else if (bearing !== null && bearing > 292 && bearing <= 338) {
+                        direction = "NW"
+                    } else {
+                        direction = ""
+                    }
+
+                    $(".currentStatsValueWind").text(Math.round(fullData.hourly.data[index + dayBuffer].windSpeed) + "km/h " + direction)
+                    $(".currentStatsValuePressure").text(Math.round(fullData.hourly.data[index + dayBuffer].pressure) / 10 + "kPa")
+
+                    $("#locationTimeHour").show();
+                    $("#current").fadeIn(150)
+                })
+
+            });
+
+            $(document).on("click tap touchstart", ".dailySingle", function() {
+                $("#locationTimeHour").hide();
+                $(".dailySelected").removeClass("dailySelected");
+                $(".hourlySelected").removeClass("hourlySelected");
+
+                var index = $(this).parent().children().index(this);
+                $(".dailySingle:nth-child(" + (index + 1) + ")").addClass("dailySelected");
+
+                var icon = fullData.daily.data[index].icon
+
+                if (icon === "clear-day" || icon === "clear-night") {
+                    icon = "clear"
+                } else if (icon === "partly-cloudy-day" || icon === "partly-cloudy-night") {
+                    icon = "partly"
+                } else if (icon === "rain" || icon === "snow" || icon === "sleet" || icon === "wind" || icon === "fog" || icon === "cloudy" || icon === "hail" || icon === "thunderstorm" || icon === "tornado") {} else {
+                    icon = "clear"
+                }
+
+                $("#current").fadeOut(150).promise().done(function() {
+                    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'thursday', 'Friday', 'Saturday'];
+                    $("#locationTimeDay").text(days[(new Date((fullData.daily.data[index].time) * 1000)).getDay()])
+                    $("#currentTempIcon").removeClass().addClass(icon)
+                    $("#locationTemp").text(icon)
+                    $("html").removeClass().addClass(icon + "Bg")
+
+                    isCelsiusCurrent = (isCelsiusCurrent - isCelsiusCurrent) + ((fullData.daily.data[index].temperatureMin + fullData.daily.data[index].temperatureMax) / 2)
+
+
+                    if (isCelsius === true) {
+                        $("#currentTempValue").text(Math.round((fullData.daily.data[index].temperatureMin + fullData.daily.data[index].temperatureMax) / 2))
+                    } else {
+                        $("#currentTempValue").text(Math.round(((fullData.daily.data[index].temperatureMin + fullData.daily.data[index].temperatureMax) / 2) * 1.8 + 32))
+                    }
+
+                    $("body").css("background-color", "rgba(0, 0, 0, 0")
+
+                    $(".currentStatsValuePrecipitation").text(Math.round(fullData.daily.data[index].precipProbability * 100) + "%")
+                    $(".currentStatsValueHumidity").text(Math.round(fullData.daily.data[index].humidity * 100) + "%")
+                    var bearing = fullData.daily.data[index].windBearing
+                    var direction
+                    if (bearing !== null && bearing > 338 || bearing < 22) {
+                        direction = "N"
+                    } else if (bearing !== null && bearing > 22 && bearing < 67) {
+                        direction = "NE"
+                    } else if (bearing !== null && bearing > 67 && bearing < 112) {
+                        direction = "E"
+                    } else if (bearing !== null && bearing > 112 && bearing < 157) {
+                        direction = "SE"
+                    } else if (bearing !== null && bearing > 157 && bearing < 202) {
+                        direction = "S"
+                    } else if (bearing !== null && bearing > 202 && bearing < 247) {
+                        direction = "SW"
+                    } else if (bearing !== null && bearing > 247 && bearing < 292) {
+                        direction = "W"
+                    } else if (bearing !== null && bearing > 292 && bearing <= 338) {
+                        direction = "NW"
+                    } else {
+                        direction = ""
+                    }
+
+                    $(".currentStatsValueWind").text(Math.round(fullData.daily.data[index].windSpeed) + "km/h " + direction)
+                    $(".currentStatsValuePressure").text(Math.round(fullData.daily.data[index].pressure) / 10 + "kPa")
+
+                    $("#current").fadeIn(150)
+                })
+
+                dayBuffer = dayBuffer - dayBuffer + (index * 24)
+
+                $("#hourly").fadeOut(150).promise().done(function() {
+                    hourlyTemp.length = 0;
+                    for (i = 0; i < 24; i++) {
+                        var time = (new Date((fullData.hourly.data[i + dayBuffer].time) * 1000)).getHours()
+                        if (time == 0) {
+                            time = (time + 12) + "AM";
+                        } else if (time == 12) {
+                            time = time + "PM"
+                        } else if (time > 12) {
+                            time = (time - 12) + "PM"
+                        } else {
+                            time = time + "AM"
+                        }
+
+                        $(".hourlySingle:nth-child(" + (i + 1) + ") .hourlyTime").text(time)
+
+                        var icon = fullData.hourly.data[i + dayBuffer].icon
+
+                        if (icon === "clear-day" || icon === "clear-night") {
+                            icon = "clear"
+                        } else if (icon === "partly-cloudy-day" || icon === "partly-cloudy-night") {
+                            icon = "partly"
+                        } else if (icon === "rain" || icon === "snow" || icon === "sleet" || icon === "wind" || icon === "fog" || icon === "cloudy" || icon === "hail" || icon === "thunderstorm" || icon === "tornado") {} else {
+                            icon = "clear"
+                        }
+
+                        $(".hourlySingle:nth-child(" + (i + 1) + ") .hourlyIcon").removeClass().addClass("hourlyIcon " + icon)
+
+                        if (isCelsius === true) {
+                            $(".hourlySingle:nth-child(" + (i + 1) + ") .hourlyTemp .hourlyTempValue").text(Math.round(fullData.hourly.data[i + dayBuffer].temperature))
+                        } else {
+                            $(".hourlySingle:nth-child(" + (i + 1) + ") .hourlyTemp .hourlyTempValue").text(Math.round(fullData.hourly.data[i + dayBuffer].temperature * 1.8 + 32))
+                        }
+                    }
+
+                    $("#hourly").fadeIn(150)
+                })
+            });
+        });
+
+    </script>
+</body>
+
+</html>
